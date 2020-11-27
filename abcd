@@ -1,0 +1,87 @@
+import React, { Component } from 'react';
+import {
+	Platform,
+	StyleSheet,
+	Text,
+	View,
+	Alert,
+	TouchableOpacity
+} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+import MapView,
+{ PROVIDER_GOOGLE, Marker, Callout, Polygon, Circle }
+  from 'react-native-maps';
+
+const instructions = Platform.select({
+	ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+	android:
+		'Double tap R on your keyboard to reload,\n' +
+		'Shake or press menu button for dev menu'
+});
+
+//navigator.geolocation = require("react-native-geolocation-service")
+export default class App extends Component {
+	state = {
+		location: null
+	};
+
+	findCoordinates = () => {
+		Geolocation.getCurrentPosition(
+			position => {
+				const location = JSON.stringify(position);
+
+				this.setState({ location });
+			},
+			error => Alert.alert(error.message),
+			{ enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+		);
+	};
+
+	render() {
+		return (
+			// <View style={styles.container}>
+			// 	<TouchableOpacity onPress={this.findCoordinates}>
+			// 		<Text style={styles.welcome}>Find My Coords?</Text>
+			// 		<Text>Location: {this.state.location}</Text>
+			// 	</TouchableOpacity>
+      // </View>
+      
+      <View>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          ref={map => this._map = map}
+          showsUserLocation={true}
+          style={styles.container}
+          />
+      </View>
+		);
+	}
+}
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    height: 100
+	},
+	welcome: {
+		fontSize: 20,
+		textAlign: 'center',
+		margin: 10
+	},
+	instructions: {
+		textAlign: 'center',
+		color: '#333333',
+		marginBottom: 5
+	}
+});
+
+
+ <MapView.Marker 
+                  coordinate={{latitude:  33.4468502,
+                   longitude: 73.3575395}}
+                  title={"title"}
+                  description={"description"}
+                /> 
